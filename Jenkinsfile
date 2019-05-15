@@ -12,6 +12,7 @@ import groovy.json.JsonSlurperClassic
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import java.net.URL
+import groovy.lang.Binding
  
 try {
 node {
