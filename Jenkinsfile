@@ -1,12 +1,19 @@
-import hudson.plugins.git.*;
-
-def scm = new GitSCM("git@github.com:dermeister0/Tests.git")
-scm.branches = [new BranchSpec("*/develop")];
-
-def flowDefinition = new org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition(scm, "Jenkinsfile")
-
-def parent = Jenkins.instance
-def job = new org.jenkinsci.plugins.workflow.job.WorkflowJob(parent, "New Job")
-job.definition = flowDefinition
-
-parent.reload()
+    
+job('NodeJS example') {
+    scm {
+        git('git://github.com/wardviaene/docker-demo.git') {  node -> // is hudson.plugins.git.GitSCM
+            node / gitConfigName('DSL User')
+            node / gitConfigEmail('jenkins-dsl@newtech.academy')
+        }
+    }
+    triggers {
+        scm('H/5 * * * *')
+    }
+    wrappers {
+        nodejs('nodejs') // this is the name of the NodeJS installation in 
+                         // Manage Jenkins -> Configure Tools -> NodeJS Installations -> Name
+    }
+    steps {
+        shell("npm install")
+    }
+}
