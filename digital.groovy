@@ -13,6 +13,6 @@ job('Infra-Provisioning') {
                          // Manage Jenkins -> Configure Tools -> NodeJS Installations -> Name
     }
     steps {
-        echo ike
+    
     }
 }
