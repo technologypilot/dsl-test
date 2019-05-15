@@ -1,54 +1,12 @@
-#!/usr/bin/env groovy
- 
-/**
-        * Sample Jenkinsfile for Jenkins2 Pipeline
-        * from https://github.com/hotwilson/jenkins2/edit/master/Jenkinsfile
-        * by wilsonmar@gmail.com 
- */
- 
-import hudson.model.*
-import hudson.EnvVars
-import groovy.json.JsonSlurperClassic
-import groovy.json.JsonBuilder
-import groovy.json.JsonOutput
-import java.net.URL
-import groovy.lang.Binding
- 
-try {
-node {
-stage '\u2776 Stage 1'
-echo "\u2600 BUILD_URL=${env.BUILD_URL}"
- 
-def workspace = pwd()
-echo "\u2600 workspace=${workspace}"
- 
-stage '\u2777 Stage 2'
-} // node
-} // try end
-catch (exc) {
-/*
- err = caughtError
- currentBuild.result = "FAILURE"
- String recipient = 'infra@lists.jenkins-ci.org'
- mail subject: "${env.JOB_NAME} (${env.BUILD_NUMBER}) failed",
-         body: "It appears that ${env.BUILD_URL} is failing, somebody should do something about that",
-           to: recipient,
-      replyTo: recipient,
- from: 'noreply@ci.jenkins.io'
-*/
-} finally {
-  
- (currentBuild.result != "ABORTED") && node("master") {
-     // Send e-mail notifications for failed or unstable builds.
-     // currentBuild.result must be non-null for this step to work.
-     step([$class: 'Mailer',
-        notifyEveryUnstableBuild: true,
-        recipients: "${email_to}",
-        sendToIndividuals: true])
- }
- 
- // Must re-throw exception to propagate error:
- if (err) {
-     throw err
- }
-}
+import hudson.plugins.git.*;
+
+def scm = new GitSCM("git@github.com:dermeister0/Tests.git")
+scm.branches = [new BranchSpec("*/develop")];
+
+def flowDefinition = new org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition(scm, "Jenkinsfile")
+
+def parent = Jenkins.instance
+def job = new org.jenkinsci.plugins.workflow.job.WorkflowJob(parent, "New Job")
+job.definition = flowDefinition
+
+parent.reload()
