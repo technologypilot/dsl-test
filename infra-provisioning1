@@ -1,0 +1,11 @@
+job('Infrastructure-Provisioning') {
+    scm {
+        git('https://github.com/technologypilot/dsl-test.git')
+    }
+    triggers {
+        scm('H/15 * * * *')
+    }
+    steps {
+        shell("chmod +x ./core/manage_infrastructure.sh")
+    }
+}

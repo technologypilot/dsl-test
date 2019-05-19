@@ -1,0 +1,21 @@
+job('Infrastructure-Provisioning') {
+    scm {
+        git('https://github.com/technologypilot/dsl-test.git')
+    }
+    triggers {
+        scm('H/15 * * * *')
+    }
+    steps {
+        shell("chmod +x ./core/manage_infrastructure.sh")
+    }
+}
+
+
+                sh script: "export GIT_LOCAL_BRANCH='MASTER'"
+                sh label: 'Pull down code from bitbucket', script: 'rm -rf core'
+                sh label: 'Pull down code from bitbucket', script: 'git clone "git@github.com:ikekim/core.git"'
+                sh label: 'Move infra file', script: 'cp ./core/test/rogersenv/spring-infra.yaml .'
+                sh label: 'Make script executable', script: 'chmod +x ./core/manage_infrastructure.sh'
+                sh label: 'Make script executable', script: 'chmod +x ./core/manage_infrastructure.py'
+                sh label: 'Validate the product to be provisioned', script: './core/manage_infrastructure.sh -a validation -c spring-infra.yaml -d -r ca-central-1 -p build_number=101'
+                sh label: 'Validate the product to be provisioned', script: './core/manage_infrastructure.sh -a termination -c spring-infra.yaml -d -r ca-central-1 -p build_number=101'

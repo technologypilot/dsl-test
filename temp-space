@@ -1,0 +1,53 @@
+
+job('Infrastructure-Provisioning') {
+    scm {
+        git {
+            remote {
+                name('origin')
+                    url('https://github.com/technologypilot/aws-core.git')
+                    credentials('Repo_Full_Hook_Full_Rogers_hook')
+            }
+            branch('master')
+        }
+    }
+    triggers {
+        scm('H/15 * * * *')
+    }
+    steps {
+      	shell("echo 'Hello World'")
+      	shell("chmod +x manage_infrastructure.sh")
+    }
+}
+
+https://support.cloudbees.com/hc/en-us/articles/204986450-Pipeline-How-to-manage-user-inputs
+
+stage 'promotion'
+def userInput = input(
+ id: 'userInput', message: 'Let\'s promote?', parameters: [
+ [$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env'],
+ [$class: 'TextParameterDefinition', defaultValue: 'uat1', description: 'Target', name: 'target']
+])
+echo ("Env: "+userInput['env'])
+echo ("Target: "+userInput['target'])
+
+--------------------------------------------------------------------------------
+
+job('Infrastructure-Provisioning') {
+    scm {
+        git {
+            remote {
+                name('origin')
+                    url('https://github.com/technologypilot/aws-core.git')
+                    credentials('Repo_Full_Hook_Full_Rogers_hook')
+            }
+            branch('master')
+        }
+    }
+    triggers {
+        scm('H/15 * * * *')
+    }
+    steps {
+      	shell("echo 'Hello World'")
+      	shell("chmod +x manage_infrastructure.sh")
+    }
+}

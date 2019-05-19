@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+        stage('Generate jobs'){
+            steps {
+                jobDsl ignoreExisting: true, 
+                    ignoreMissingFiles: true, 
+                    removedConfigFilesAction: 'DELETE', 
+                    removedJobAction: 'DELETE', 
+                    removedViewAction: 'DELETE', 
+                    targets: 'nodejs.groovy'
+            }
+        }
+    } 
+}  
