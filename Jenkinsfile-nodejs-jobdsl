@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    stages {
         stage('Generate jobs'){
             steps {
                 jobDsl ignoreExisting: true, 
@@ -10,4 +11,5 @@ pipeline {
                     targets: 'nodejs.groovy'
             }
         }
-    }  
+    }
+}
