@@ -1,0 +1,12 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Generate groovy file'){
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'authenticator', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+                    sh label: '', script: './create-pipeline.sh $USERNAME $PASSWORD'
+                }
+            }
+        }
+    }
