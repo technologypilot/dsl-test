@@ -7,6 +7,8 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'authenticator', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
                 sh 'echo $USERNAME'
                 sh 'echo $PASSWORD'
+                sh label: 'Make script executable', script: 'chmod +x ./create-pipeline.sh'
+                sh label: '', script: './create-pipeline.sh $USERNAME $PASSWORD'
                 }
             }
         }
