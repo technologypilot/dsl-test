@@ -1,0 +1,6 @@
+repos:
+  - name: testJenkinsLib
+  - name: testJenkinsLib
+    folders:
+      - p1
+      - p2
