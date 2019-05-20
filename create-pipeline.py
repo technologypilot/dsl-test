@@ -14,7 +14,7 @@ class Repository(object):
         self._api_endpoint = 'http://api.github.com'
         self._scm_username = scm_username
         self._scm_password = scm_password
-        self._scm_org = 'RogersCommunications'
+        self._scm_org = 'technologypilotcorp'
 
         # need to have a proper Jenkins cred ID
         self._scm_cred_id = 'Repo_Full_Hook_Full_Rogers_hook'
