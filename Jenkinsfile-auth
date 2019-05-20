@@ -5,7 +5,7 @@ pipeline {
         stage('Generate groovy file'){
             steps {
                 withCredentials([usernamePassword(credentialsId: 'authenticator', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                
+                sh 'echo $PASSWORD'
                 }
             }
         }
