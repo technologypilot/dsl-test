@@ -34,8 +34,7 @@ class Repository(object):
     def __get_repositories(self):
         repositories = []
 
-        # response = requests.get(self._api_endpoint + f'/orgs/{self._scm_org}/repos', auth=HTTPBasicAuth(self._scm_username, self._scm_password), verify=False)
-        response = requests.get('https://api.github.com/user/repos', auth=HTTPBasicAuth('techpilot-token', '4ddb06f20667ffdab7a5612c8f4355c17cbea889'))
+        response = requests.get(self._api_endpoint + f'/orgs/{self._scm_org}/repos', auth=HTTPBasicAuth(self._scm_username, self._scm_password), verify=False)
         if response.status_code == 200:
             res_json = response.json()
 
@@ -217,5 +216,13 @@ if __name__ == "__main__":
     fh = logging.FileHandler('output.log')
     logger.addHandler(fh)
 
-    repository = Repository(args.scm_username, args.scm_password)
-    repository.scan_and_create_pipelines()
+    # repository = Repository(args.scm_username, args.scm_password)
+    # repository.scan_and_create_pipelines()
+
+    response = requests.get('https://api.github.com/user/repos', auth=HTTPBasicAuth('techpilot-token', '4ddb06f20667ffdab7a5612c8f4355c17cbea889'))
+    if response.status_code == 200:
+        res_json = response.json()
+        #print(res_json)
+
+        for repo in res_json:
+            print(repo['name'])
